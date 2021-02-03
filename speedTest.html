@@ -4,30 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speed Test</title>
+
+    <style>
+        .off{ display: none;}
+
+        form{ display: flex; flex-direction: column;}
+    </style>
 </head>
 <body>
 
     <form>
-        <input type="radio" id="iterationLimit" name="limit" value="maxIterations" checked>
-        <label for="iterationLimit">Iteration Limit</label>
-        <input type="radio" id="timeLimit" name="limit" value="maxTime">
-        <label for="timeLimit">Time Limit</label>
-
+        <div>
+            <input type="radio" id="iterationLimit" name="limit" value="maxIterations" checked>
+            <label for="iterationLimit">Iteration Limit</label>
+            <input type="radio" id="timeLimit" name="limit" value="maxTime">
+            <label for="timeLimit">Time Limit</label>
+        </div>
 
         <label class="limitOptions" for="maxIterations">Choose number of iterations:</label>
         <select class="limitOptions"  name="maxIterations" id="maxIterations">
         </select>
 
-        <label class="limitOptions" for="maxTime">Choose time limit:</label>
-        <select class="limitOptions" name="maxTime" id="maxTime">
+        <label class="limitOptions off" for="maxTime">Choose time limit:</label>
+        <select class="limitOptions off" name="maxTime" id="maxTime">
         </select>
 
+        <!-- <label for="initialize">Initialize and Assign Variables:</label> -->
+        <!-- <textarea style="resize: none;" id="initialize" name="initialize" /></textarea> -->
 
-        <label for="function1">Insert function 1:</label>
-        <textarea style="resize: none;" id="function1" name="function1" /></textarea>
+        <label for="codeblock1">Insert Code Block 1:</label>
+        <textarea style="resize: none;" id="codeblock1" name="codeblock1" /></textarea>
 
-        <label for="function2">Insert function 2:</label>
-        <textarea style="resize: none;" id="function2" name="function1" /></textarea>
+        <label for="codeblock2">Insert Code Block 2:</label>
+        <textarea style="resize: none;" id="codeblock2" name="codeblock1" /></textarea>
 
         <button type="button" id="runTest">Submit</button>
 

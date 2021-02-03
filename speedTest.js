@@ -4,99 +4,78 @@ const $maxTime = document.getElementById('maxTime');
 const iterationOptions = [1000, 100000, 1000000, 100000000];
 const timeOptions = [1000, 10000, 30000];
 
-
-document.getElementById('runTest').addEventListener('submit', (e) => { e.preventDefault(); });
-
-
-
-
-const setTimeOptions = (timeOptions) => {
+const arrayEach = (object, callback) => {
     let i = 0;
-    while (i < timeOptions.length) {
-        const newOption = document.createElement('option');
-        newOption.setAttribute('value', timeOptions[i]);
-        newOption.innerHTML = `${+timeOptions[i] / 1000} second/s`;
-
-        $maxTime.append(newOption);
-        i += 1;
+    const length = object ? object.length : 0;
+    if (typeof length == 'number' && length > -1) {
+        while (i < length) {
+            callback(object[i], i, object);
+            i += 1;
+        }
     }
 };
 
-const setIterationOptions = (iterationOptions) => {
-    let i = 0;
-    while (i < iterationOptions.length) {
-        const newOption = document.createElement('option');
-        newOption.setAttribute('value', iterationOptions[i]);
-        newOption.innerHTML = iterationOptions[i];
-
-        $maxIterations.append(newOption);
-        i += 1;
-    }
+const runSpeedTest = (testFunc, id = 'function') => {
+    const testFunction = new Function(testFunc);
+    const t0 = performance.now();
+    for (let n = 0; n < $maxIterations.value; n++)
+        testFunction();
+    const t1 = performance.now();
+    console.log(`Call to ${id} took ${t1 - t0} milliseconds.`);
 };
 
-const showOptions = (value) => {
-    console.log(value);
-    const limitRadios = document.getElementsByName('limitOptions');
-    let j = 0;
-    while (j < limitRadios.length) {
-        if (limitRadios[i].id === value)
-            limitRadioss[j].style.display = 'block';
-        else
-            limitRadioss[j].style.display = 'none';
+const setTimeOptions = (timeOption) => {
+    const newOption = document.createElement('option');
+    newOption.setAttribute('value', timeOption);
+    newOption.innerHTML = `${+timeOption / 1000} second/s`;
 
-        j += 1;
-    }
-
-
+    $maxTime.append(newOption);
 };
 
-setIterationOptions(iterationOptions);
-setTimeOptions(timeOptions);
+const setIterationOptions = (iterationOption) => {
+    const newOption = document.createElement('option');
+    newOption.setAttribute('value', iterationOption);
+    newOption.innerHTML = iterationOption;
 
-// Radio Inputs
-const limitRadios = document.getElementsByName('limit');
-let i = 0;
-while (i < limitRadios.length) {
-    limitRadios[i].addEventListener('change', function() {
-        // limitRadios.
-        // limitRadios.querySelector('[checked]');
-        // console.log('this',this);
-        if (this.hasAttribute('checked'))
+    $maxIterations.append(newOption);
+};
 
-            showOptions(this.value);
-    });
-
-    if (limitRadios[i].hasAttribute('checked')){
-        // limitRadios[i].value
+const getInitVars = () => {
+    const variables = [];
+    let fullInput = document.getElementById('initialize').value;
+    while (fullInput.length > 0) {
+        variables.push(fullInput.slice(0, fullInput.indexOf(';')));
+        fullInput = fullInput.slice(fullInput.indexOf(';'));
     }
+    console.log(variables);
+};
 
-    // const newOption = document.createElement('option');
-    // newOption.setAttribute('value', iterationOptions[i]);
-    // newOption.innerHTML = iterationOptions[i];
+document.getElementById('runTest').onclick = (e) => {
+    e.preventDefault();
 
-    // $maxIterations.append(newOption);
-    i += 1;
-}
+    // Set up test get functions
+    getInitVars();
+    const codeBlock1 = document.getElementById('codeblock1').value;
+    runSpeedTest(codeBlock1);
+    // console.log('testttting');
+    // console.log();
+};
 
-// Limit Inputs
-const limitOptions = document.getElementsByClassName('limitOptions');
-let j = 0;
-while (j < limitOptions.length) {
-    // console.log(limitOptions[j]);
-    limitOptions[j].style.display = 'none';
-    j += 1;
-}
+arrayEach(document.getElementsByName('limit'), (el) => {
+    // console.log(el.checked)
+    el.onchange = () => {
+        arrayEach(document.getElementsByClassName('limitOptions'), (el) => el.classList.add('off'));
 
+        const userOptions = document.getElementById(el.value);
+        userOptions.previousElementSibling.classList.remove('off');
+        userOptions.classList.remove('o');
 
+        // console.log(.style.display = 'block');
+        // console.log(el.checked);
+    };
+});
 
-// const runSpeedTest = (testFunc) => {
-//     const t0 = performance.now();
-//     for (let n = 0; n < $maxIterations.value; n++)
-//         testFunc();
-//     const t1 = performance.now();
-//     console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
-//     // console.time('My operation');
-//     // console.timeEnd('My operation');
-// };
+arrayEach(iterationOptions, (option) => setIterationOptions(option));
+arrayEach(timeOptions, (option) => setTimeOptions(option));
 
 // runSpeedTest(reduceArray);

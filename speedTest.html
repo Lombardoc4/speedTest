@@ -6,16 +6,34 @@
     <title>Speed Test</title>
 </head>
 <body>
-    <label for="maxCount">Choose number of iterations:</label>
-    <select name="maxCount" id="maxCount">
-    </select>
+
+    <form>
+        <input type="radio" id="iterationLimit" name="limit" value="maxIterations" checked>
+        <label for="iterationLimit">Iteration Limit</label>
+        <input type="radio" id="timeLimit" name="limit" value="maxTime">
+        <label for="timeLimit">Time Limit</label>
 
 
-    <label for="function1">Insert function 1:</label>
-    <input type="text" id="function1" name="function1" />
+        <label class="limitOptions" for="maxIterations">Choose number of iterations:</label>
+        <select class="limitOptions"  name="maxIterations" id="maxIterations">
+        </select>
 
-    <datalist id="iterations">
-    </datalist>
+        <label class="limitOptions" for="maxTime">Choose time limit:</label>
+        <select class="limitOptions" name="maxTime" id="maxTime">
+        </select>
+
+
+        <label for="function1">Insert function 1:</label>
+        <textarea style="resize: none;" id="function1" name="function1" /></textarea>
+
+        <label for="function2">Insert function 2:</label>
+        <textarea style="resize: none;" id="function2" name="function1" /></textarea>
+
+        <button type="button" id="runTest">Submit</button>
+
+        <datalist id="iterations">
+        </datalist>
+    </form>
 
     <!-- JS -->
     <script src="./speedTest.js"></script>

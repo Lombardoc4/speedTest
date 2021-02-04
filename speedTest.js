@@ -15,11 +15,22 @@ const arrayEach = (object, callback) => {
     }
 };
 
+// function Tree(name) {
+    // this.name = name
+//   }
+
+//   let theTree = new Tree('Redwood')
+//   console.log('theTree.constructor is ' + theTree.constructor)
+
 const runSpeedTest = (testFunc, id = 'function') => {
-    const testFunction = new Function(testFunc);
+    const testFunction = new Function(`return ${testFunc}`);
+    // Create this function to be async
+    // testFunction.constructor
+    console.log(testFunction);
     const t0 = performance.now();
     for (let n = 0; n < $maxIterations.value; n++)
-        testFunction();
+    // Use async to have timer end when function is done running
+    testFunction();
     const t1 = performance.now();
     console.log(`Call to ${id} took ${t1 - t0} milliseconds.`);
 };
@@ -40,25 +51,24 @@ const setIterationOptions = (iterationOption) => {
     $maxIterations.append(newOption);
 };
 
-const getInitVars = () => {
-    const variables = [];
-    let fullInput = document.getElementById('initialize').value;
-    while (fullInput.length > 0) {
-        variables.push(fullInput.slice(0, fullInput.indexOf(';')));
-        fullInput = fullInput.slice(fullInput.indexOf(';'));
-    }
-    console.log(variables);
-};
+// TODO: Set initial variables for functions so both use same vars
+// const getInitVars = () => {
+//     const variables = [];
+//     let fullInput = document.getElementById('initialize').value;
+//     while (fullInput.length > 0) {
+//         variables.push(fullInput.slice(0, fullInput.indexOf(';')));
+//         fullInput = fullInput.slice(fullInput.indexOf(';'));
+//     }
+//     console.log(variables);
+// };
 
 document.getElementById('runTest').onclick = (e) => {
     e.preventDefault();
-
     // Set up test get functions
-    getInitVars();
-    const codeBlock1 = document.getElementById('codeblock1').value;
-    runSpeedTest(codeBlock1);
-    // console.log('testttting');
-    // console.log();
+    // getInitVars();
+
+    // Set a for each loop to run on every codeblock class
+    arrayEach(document.getElementsByClassName('codeblock'), (block) => (block.value ? runSpeedTest(block.value) : false));
 };
 
 arrayEach(document.getElementsByName('limit'), (el) => {
@@ -68,7 +78,7 @@ arrayEach(document.getElementsByName('limit'), (el) => {
 
         const userOptions = document.getElementById(el.value);
         userOptions.previousElementSibling.classList.remove('off');
-        userOptions.classList.remove('o');
+        userOptions.classList.remove('off');
 
         // console.log(.style.display = 'block');
         // console.log(el.checked);

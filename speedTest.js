@@ -19,14 +19,16 @@ const runSpeedTest = (testInput, id) => {
     const t0 = performance.now();
     let n = 0;
     while (n < $maxIterations.value) {
-    // for (n < $maxIterations.value; n++) {
         testFunction();
         n += 1;
     }
     const t1 = performance.now();
-    console.log(`Call to ${id} took ${t1 - t0} milliseconds.`);
+    const p = document.createElement('p');
+    p.innerHTML = `Call to Code Block ${id} took ${t1 - t0} milliseconds.`;
+    document.getElementById('timing').append(p);
+    // .innerHTML += `Call to Code Block ${id} took ${t1 - t0} milliseconds.`
+    // console.log();
 };
-
 
 const setIterationOptions = (iterationOption) => {
     const newOption = document.createElement('option');
@@ -38,13 +40,14 @@ const setIterationOptions = (iterationOption) => {
 
 document.getElementById('runTest').onclick = (e) => {
     e.preventDefault();
-    // Set up test get functions
-    // getInitVars();
+    console.log(document.getElementById('timing').children);
+    // Clear Timing
+    const timing = document.getElementById('timing');
+    while (timing.firstChild)
+        timing.removeChild(timing.firstChild);
 
-    // Set a for each loop to run on every codeblock class
-    arrayEach(document.getElementsByClassName('codeblock'), (block, i) => (block.value ? runSpeedTest(block.value, i) : false));
+    arrayEach(document.getElementsByClassName('codeblock'), (block, i) => (block.value ? runSpeedTest(block.value, i + 1) : false))
 };
-
 
 arrayEach(iterationOptions, (option) => setIterationOptions(option));
 

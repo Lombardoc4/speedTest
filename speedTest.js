@@ -1,4 +1,6 @@
-const $maxIterations = document.getElementById('maxIterations');
+const $iterationNum = document.getElementById('iterationNum');
+const $codeBlocks = document.getElementsByClassName('codeblock');
+const $allBlocks = document.getElementById('allBlocks');
 
 const iterationOptions = [10, 100, 1000, 100000, 1000000];
 
@@ -13,42 +15,108 @@ const arrayEach = (object, callback) => {
     }
 };
 
+const reformatBlocks = () => {
+    $allBlocks.style.flexDirection = 'row';
+    $allBlocks.style.flexWrap = 'wrap';
+    $allBlocks.style.maxWidth = '55em';
+
+    arrayEach(document.getElementsByClassName('aBlock'), (el) => {
+        el.style.margin = '1em';
+        el.style.flex = '1 1 auto';
+    });
+};
+
+// Set limit to maybe maybe 4 functions to compare or even 3
+// Advanced: create once iterations are over 1000 can only use 3 functions
+const createCodeBlock = () => {
+    // id number below
+    // $codeBlocks.length - 1
+    if ($codeBlocks.length < 4) {
+        // fire function to reformat if two
+        if ($codeBlocks.length === 2)
+            reformatBlocks();
+
+        const blockId = $codeBlocks.length + 1;
+        const blockLabel = document.createElement('label');
+        blockLabel.setAttribute('for', `codeblock${blockId}`);
+        blockLabel.innerHTML = `Insert Code Block ${blockId}:`;
+
+        const blockTextarea = document.createElement('textarea');
+        blockTextarea.id = `codeblock${blockId}`;
+        blockTextarea.name = `codeblock${blockId}`;
+        blockTextarea.classList.add('codeblock');
+
+        const aBlock = document.createElement('div');
+        aBlock.classList.add('aBlock');
+        aBlock.append(blockLabel);
+        aBlock.append(blockTextarea);
+
+        if ($codeBlocks.length >= 2)
+            aBlock.style.margin = '1em';
+
+        $allBlocks.append(aBlock);
+    }
+    // else error: too many function too compute
+};
+
+document.getElementById('insertBlock').onclick = (e) => {
+    e.preventDefault();
+    createCodeBlock();
+};
+
 const runSpeedTest = (testInput, id) => {
-    // const testFunction = new Function(`return () => {${testInput}}`);
+    // Defined before to prevent overhead
     const testFunction = new Function(testInput);
-    const t0 = performance.now();
     let n = 0;
-    while (n < $maxIterations.value) {
+    const max = +$iterationNum.innerHTML;
+
+    // Timing of function (while least overhead)
+    const t0 = performance.now();
+    while (n < max) {
         testFunction();
         n += 1;
     }
     const t1 = performance.now();
+
+    // Create paragraph to show time
+    const timing = document.createElement('b');
+
+    timing.innerHTML = t1 - t0;
     const p = document.createElement('p');
-    p.innerHTML = `Call to Code Block ${id} took ${t1 - t0} milliseconds.`;
+    p.innerHTML = `Call to Code Block <b>${id}</b> took <b>${t1 - t0}</b> milliseconds.`;
     document.getElementById('timing').append(p);
-    // .innerHTML += `Call to Code Block ${id} took ${t1 - t0} milliseconds.`
-    // console.log();
 };
 
-const setIterationOptions = (iterationOption) => {
-    const newOption = document.createElement('option');
-    newOption.setAttribute('value', iterationOption);
-    newOption.innerHTML = iterationOption;
-
-    $maxIterations.append(newOption);
-};
-
+// Set the power of submit
 document.getElementById('runTest').onclick = (e) => {
     e.preventDefault();
-    console.log(document.getElementById('timing').children);
     // Clear Timing
     const timing = document.getElementById('timing');
     while (timing.firstChild)
         timing.removeChild(timing.firstChild);
 
-    arrayEach(document.getElementsByClassName('codeblock'), (block, i) => (block.value ? runSpeedTest(block.value, i + 1) : false))
+    // runCodeTest on input function
+    arrayEach($codeBlocks, (block, i) => (block.value ? runSpeedTest(block.value, i + 1) : false));
 };
 
-arrayEach(iterationOptions, (option) => setIterationOptions(option));
+// Set the values for user iterations
+const setIterationOptions = (iterationOption) => {
+    // document.getElementById('iterationOptions')
+    const newOption = document.createElement('span');
+    if (document.getElementById('iterationOptions').childElementCount === 0)
+        newOption.style.fontWeight = 'bold';
 
-// runSpeedTest(reduceArray);
+    newOption.onclick = function () {
+        $iterationNum.innerHTML = iterationOption;
+        // console.log("testing");
+        // Do something with css
+        arrayEach(document.querySelectorAll('#iterationOptions span'), (el) => { console.log(el); el.style.fontWeight = 'normal'; });
+        this.style.fontWeight = 'bold';
+    };
+    newOption.innerHTML = iterationOption;
+
+    document.getElementById('iterationOptions').append(newOption);
+};
+
+// initialize user options
+arrayEach(iterationOptions, (option) => setIterationOptions(option));

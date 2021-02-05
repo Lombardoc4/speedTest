@@ -1,0 +1,138 @@
+*, *::before, *::after{
+    margin: 0;
+    padding: 0;
+}
+html{
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+body{
+    /* Positioning */
+    height: calc(100% - 2em);
+    width: calc(100% - 2em);
+    margin: auto;
+    margin-top: 1em;
+
+    /* Shape and Color */
+    border-radius: 2em;
+    background-color: #e5e5e5;
+    box-shadow: inset 0 0 5px #696969;
+
+    /* Children */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form{
+    background-color: #ffffff;
+    padding: 2em;
+    border-radius: 1em;
+    box-shadow: 0 0 10px #696969;
+    overflow: scroll;
+
+    /* Children */
+    display: flex;
+    flex-direction: column;
+}
+
+#currentIterations{
+    text-align: center;
+    border-bottom: 1px solid #696969;
+    margin-bottom: 0.5em;
+}
+
+.bold-big{
+    font-size: 2em;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+#iterationOptions{
+    display: flex;
+}
+
+#iterationOptions span{
+    margin: auto;
+}
+
+#iterationOptions span:hover{
+    cursor: pointer;
+}
+
+#timing p{
+    padding-top: 1em;
+}
+
+
+#allBlocks{
+    display: flex;
+    flex-direction: column;
+}
+
+.aBlock{
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.aBlock:nth-child(2){
+    margin: 0 0 1em ;
+}
+
+label{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+textarea{
+    height: 10em;
+    width: 360px;
+    padding: 1em;
+    /* margin: 1em 0 0; */
+    resize: none;
+
+    overflow: auto;
+    outline: none;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+
+#buttonGroup{
+    display: flex;
+    justify-content: space-around;
+}
+
+button{
+    outline: none;
+    border: none;
+    border-radius: 1em;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 0.5em 2em;
+    margin: 0.5em;
+    box-shadow: 0 0 5px #696969;
+    transition: box-shadow 0.3s;
+
+}
+
+button:hover{
+    box-shadow: 0 0 10px #696969;
+    transition: box-shadow 0.3s;
+}
+
+#insertBlock{
+    background-color: rgb(65, 169, 0);
+}
+
+#runTest{
+    background-color: rgb(0, 166, 169);
+}
+
+
+.off{ display: none;}

@@ -16,14 +16,14 @@ const arrayEach = (object, callback) => {
 };
 
 const reformatBlocks = () => {
-    $allBlocks.style.flexDirection = 'row';
-    $allBlocks.style.flexWrap = 'wrap';
+    // $allBlocks.style.flexDirection = 'row';
+    // $allBlocks.style.flexWrap = 'wrap';
     $allBlocks.style.maxWidth = '55em';
 
-    arrayEach(document.getElementsByClassName('aBlock'), (el) => {
-        el.style.margin = '1em';
-        el.style.flex = '1 1 auto';
-    });
+    // arrayEach(document.getElementsByClassName('aBlock'), (el) => {
+    //     el.style.margin = '1em';
+    //     el.style.flex = '1 1 auto';
+    // });
 };
 
 // Set limit to maybe maybe 4 functions to compare or even 3
@@ -51,8 +51,11 @@ const createCodeBlock = () => {
         aBlock.append(blockLabel);
         aBlock.append(blockTextarea);
 
-        if ($codeBlocks.length >= 2)
-            aBlock.style.margin = '1em';
+        // if ($codeBlocks.length >= 2){
+        //     aBlock.style.margin = '1em';
+        //     aBlock.style.flex = '1 1 auto';
+        // }
+
 
         $allBlocks.append(aBlock);
     }

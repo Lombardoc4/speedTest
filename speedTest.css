@@ -69,18 +69,17 @@ form{
 
 #allBlocks{
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    /* flex-direction: column; */
 }
 
 .aBlock{
-    margin: 1em 0;
+    margin: 1em;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
 }
 
-.aBlock:nth-child(2){
-    margin: 0 0 1em ;
-}
 
 label{
     font-weight: bold;
@@ -114,7 +113,7 @@ button{
     border-radius: 1em;
     color: #ffffff;
     font-size: 16px;
-    padding: 0.5em 2em;
+    padding: 0 2em;
     margin: 0.5em;
     box-shadow: 0 0 5px #696969;
     transition: box-shadow 0.3s;

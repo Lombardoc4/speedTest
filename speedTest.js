@@ -119,7 +119,7 @@ const setIterationOptions = (iterationOption) => {
         $iterationNum.innerHTML = iterationOption;
         // console.log("testing");
         // Do something with css
-        arrayEach(document.querySelectorAll('#iterationOptions span'), (el) => { console.log(el); el.style.fontWeight = 'normal'; });
+        arrayEach(document.querySelectorAll('#iterationOptions span'), (el) => { el.style.fontWeight = 'normal'; });
         this.style.fontWeight = 'bold';
     };
     newOption.innerHTML = iterationOption;

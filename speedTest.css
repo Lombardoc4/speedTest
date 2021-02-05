@@ -1,6 +1,7 @@
 *, *::before, *::after{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 html{
     height: 100%;
@@ -36,6 +37,20 @@ form{
     /* Children */
     display: flex;
     flex-direction: column;
+}
+
+#header{
+    display: flex;
+    flex-direction: column;
+    /* flex-wrap: nowrap; */
+}
+
+#header > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 1em;
+    flex: 1 1 50%;
 }
 
 #currentIterations{
@@ -74,8 +89,8 @@ form{
 }
 
 .aBlock{
-    margin: 1em;
-    flex: 1 1 auto;
+    padding: 1em;
+    flex: 1 1 50%;
     display: flex;
     flex-direction: column;
 }

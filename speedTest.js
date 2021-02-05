@@ -31,6 +31,9 @@ const reformatBlocks = () => {
 const createCodeBlock = () => {
     // id number below
     // $codeBlocks.length - 1
+    if ($codeBlocks.length === 1)
+        document.getElementById('header').style.flexDirection = 'row';
+
     if ($codeBlocks.length < 4) {
         // fire function to reformat if two
         if ($codeBlocks.length === 2)
@@ -97,6 +100,9 @@ document.getElementById('runTest').onclick = (e) => {
     const timing = document.getElementById('timing');
     while (timing.firstChild)
         timing.removeChild(timing.firstChild);
+
+    // Create BARGraph
+    // CreateBG();
 
     // runCodeTest on input function
     arrayEach($codeBlocks, (block, i) => (block.value ? runSpeedTest(block.value, i + 1) : false));

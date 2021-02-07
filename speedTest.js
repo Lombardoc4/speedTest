@@ -2,7 +2,7 @@ const $iterationNum = document.getElementById('iterationNum');
 const $codeBlocks = document.getElementsByClassName('codeblock');
 const $allBlocks = document.getElementById('allBlocks');
 
-const iterationOptions = [10, 100, 1000, 100000, 1000000];
+const iterationOptions = [1, 10, 100, 1000, 100000, 1000000];
 
 const arrayEach = (object, callback) => {
     let i = 0;

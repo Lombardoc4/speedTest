@@ -49,8 +49,15 @@ form{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: center;
     padding: 0 1em;
     flex: 1 1 50%;
+}
+
+#header > div > span{
+    font-size: 12px;
+    font-style: italic;
+    /* padding-top: 2px; */
 }
 
 #currentIterations{
@@ -89,7 +96,7 @@ form{
 }
 
 .aBlock{
-    padding: 1em;
+    padding: 0 1em 1em;
     flex: 1 1 50%;
     display: flex;
     flex-direction: column;

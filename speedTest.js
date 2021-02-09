@@ -2,7 +2,7 @@ const $iterationNum = document.getElementById('iterationNum');
 const $codeBlocks = document.getElementsByClassName('codeblock');
 const $allBlocks = document.getElementById('allBlocks');
 
-const iterationOptions = [1, 10, 100, 1000, 100000, 1000000];
+const iterationOptions = [1, 100000, 100000, 1000000, 10000000];
 
 const arrayEach = (object, callback) => {
     let i = 0;
@@ -70,6 +70,8 @@ document.getElementById('insertBlock').onclick = (e) => {
     createCodeBlock();
 };
 
+const colorArray = ['red', 'orange', 'green', 'teal'];
+
 const runSpeedTest = (testInput, id) => {
     // Defined before to prevent overhead
     const testFunction = new Function(testInput);
@@ -89,7 +91,11 @@ const runSpeedTest = (testInput, id) => {
 
     timing.innerHTML = t1 - t0;
     const p = document.createElement('p');
-    p.innerHTML = `Call to Code Block <b>${id}</b> took <b>${t1 - t0}</b> milliseconds.`;
+
+    // const pAfter = window.getComputedStyle(p, ':after');
+    // console.log(pAfter);
+    p.style.backgroundColor = colorArray[id - 1];
+    p.innerHTML = `Code Block <b>${id}</b> took <b>${t1 - t0}</b> milliseconds.`;
     document.getElementById('timing').append(p);
 };
 
@@ -106,6 +112,7 @@ document.getElementById('runTest').onclick = (e) => {
 
     // runCodeTest on input function
     arrayEach($codeBlocks, (block, i) => (block.value ? runSpeedTest(block.value, i + 1) : false));
+
 };
 
 // Set the values for user iterations

@@ -16,30 +16,12 @@ const arrayEach = (object, callback) => {
     }
 };
 
-const reformatBlocks = () => {
-    // $allBlocks.style.flexDirection = 'row';
-    // $allBlocks.style.flexWrap = 'wrap';
-    $allBlocks.style.maxWidth = '55em';
-
-    // arrayEach(document.getElementsByClassName('aBlock'), (el) => {
-    //     el.style.margin = '1em';
-    //     el.style.flex = '1 1 auto';
-    // });
-};
-
 // Set limit to maybe maybe 4 functions to compare or even 3
-// Advanced: create once iterations are over 1000 can only use 3 functions
 const createCodeBlock = () => {
-    // id number below
-    // $codeBlocks.length - 1
     if ($codeBlocks.length === 1)
         document.getElementById('header').style.flexDirection = 'row';
 
     if ($codeBlocks.length < 4) {
-        // fire function to reformat if two
-        if ($codeBlocks.length === 2)
-            reformatBlocks();
-
         const blockId = $codeBlocks.length + 1;
         const blockLabel = document.createElement('label');
         blockLabel.setAttribute('for', `codeblock${blockId}`);
@@ -55,14 +37,8 @@ const createCodeBlock = () => {
         aBlock.append(blockLabel);
         aBlock.append(blockTextarea);
 
-        // if ($codeBlocks.length >= 2){
-        //     aBlock.style.margin = '1em';
-        //     aBlock.style.flex = '1 1 auto';
-        // }
-
         $allBlocks.append(aBlock);
     }
-    // else error: too many function too compute
 };
 
 document.getElementById('insertBlock').onclick = (e) => {
@@ -73,21 +49,18 @@ document.getElementById('insertBlock').onclick = (e) => {
 const colorArray = ['red', 'orange', 'green', 'teal'];
 const timingArray = [];
 
-const setTimingArray = (timing) => {
-    if (timingArray.length > 0) {
-        arrayEach(timingArray, (funcTime, i) => {
-            // console.log([funcTime, timing]);
-            if (timing < funcTime) {
-                timingArray.splice(i, 0, timing);
-                console.log('splicing');
-                // return;
-            } else {
-                timingArray.push(timing);
-            }
-        });
-    } else { timingArray.push(timing); }
+const insertionAlgo = (arr) => {
+    arrayEach(arr, (funcTime, i) => {
+        // Insertion Sort
+        const num = arr[i];
+        let j;
+        // console.log('num', num);
 
-    console.log(timingArray);
+        for (j = i - 1; j >= 0 && arr[j] > num; j--)
+            arr[j + 1] = arr[j];
+
+        arr[j + 1] = num;
+    });
 };
 
 const runSpeedTest = (testInput, id) => {
@@ -103,21 +76,25 @@ const runSpeedTest = (testInput, id) => {
         n += 1;
     }
     const t1 = performance.now();
-
-    // Create paragraph to show time
     const timing = t1 - t0;
-    // timing.innerHTML =
+
+    timingArray.push({ id, timing });
+    console.log();
+
     const p = document.createElement('p');
-
-    setTimingArray(timing);
-
-    // timingArray.push(timing);
-
-    // const pAfter = window.getComputedStyle(p, ':after');
-    // console.log(pAfter);
     p.style.backgroundColor = colorArray[id - 1];
-    p.innerHTML = `Code Block <b>${id}</b>: took <b>${t1 - t0}</b> milliseconds.`;
+    p.innerHTML = `Code Block <b>${id}</b>: took <b>${timing}</b> milliseconds.`;
     document.getElementById('timing').append(p);
+};
+
+const compare = (a, b) => {
+    if (a.timing < b.timing)
+        return -1;
+
+    if (a.timing > b.timing)
+        return 1;
+
+    return 0;
 };
 
 // Set the power of submit
@@ -128,26 +105,25 @@ document.getElementById('runTest').onclick = (e) => {
     while (timing.firstChild)
         timing.removeChild(timing.firstChild);
 
-    // Create BARGraph
-    // CreateBG();
     while (timingArray.length)
         timingArray.pop();
 
     // runCodeTest on input function
     arrayEach($codeBlocks, (block, i) => (block.value ? runSpeedTest(block.value, i + 1) : false));
+
+    // insertionAlgo(timingArray);
+    timingArray.sort(compare);
+    console.log(timingArray);
 };
 
 // Set the values for user iterations
 const setIterationOptions = (iterationOption) => {
-    // document.getElementById('iterationOptions')
     const newOption = document.createElement('span');
     if (document.getElementById('iterationOptions').childElementCount === 0)
         newOption.style.fontWeight = 'bold';
 
-    newOption.onclick = function () {
+    newOption.onclick = function func() {
         $iterationNum.innerHTML = iterationOption;
-        // console.log("testing");
-        // Do something with css
         arrayEach(document.querySelectorAll('#iterationOptions span'), (el) => { el.style.fontWeight = 'normal'; });
         this.style.fontWeight = 'bold';
     };

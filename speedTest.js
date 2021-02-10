@@ -7,11 +7,12 @@ const iterationOptions = [1, 100000, 100000, 1000000, 10000000];
 const arrayEach = (object, callback) => {
     let i = 0;
     const length = object ? object.length : 0;
-    if (typeof length == 'number' && length > -1) {
+    if (typeof length == 'number' && length > 0) {
         while (i < length) {
             callback(object[i], i, object);
             i += 1;
         }
+        return true;
     }
 };
 
@@ -59,7 +60,6 @@ const createCodeBlock = () => {
         //     aBlock.style.flex = '1 1 auto';
         // }
 
-
         $allBlocks.append(aBlock);
     }
     // else error: too many function too compute
@@ -71,6 +71,24 @@ document.getElementById('insertBlock').onclick = (e) => {
 };
 
 const colorArray = ['red', 'orange', 'green', 'teal'];
+const timingArray = [];
+
+const setTimingArray = (timing) => {
+    if (timingArray.length > 0) {
+        arrayEach(timingArray, (funcTime, i) => {
+            // console.log([funcTime, timing]);
+            if (timing < funcTime) {
+                timingArray.splice(i, 0, timing);
+                console.log('splicing');
+                // return;
+            } else {
+                timingArray.push(timing);
+            }
+        });
+    } else { timingArray.push(timing); }
+
+    console.log(timingArray);
+};
 
 const runSpeedTest = (testInput, id) => {
     // Defined before to prevent overhead
@@ -87,15 +105,18 @@ const runSpeedTest = (testInput, id) => {
     const t1 = performance.now();
 
     // Create paragraph to show time
-    const timing = document.createElement('b');
-
-    timing.innerHTML = t1 - t0;
+    const timing = t1 - t0;
+    // timing.innerHTML =
     const p = document.createElement('p');
+
+    setTimingArray(timing);
+
+    // timingArray.push(timing);
 
     // const pAfter = window.getComputedStyle(p, ':after');
     // console.log(pAfter);
     p.style.backgroundColor = colorArray[id - 1];
-    p.innerHTML = `Code Block <b>${id}</b> took <b>${t1 - t0}</b> milliseconds.`;
+    p.innerHTML = `Code Block <b>${id}</b>: took <b>${t1 - t0}</b> milliseconds.`;
     document.getElementById('timing').append(p);
 };
 
@@ -109,10 +130,11 @@ document.getElementById('runTest').onclick = (e) => {
 
     // Create BARGraph
     // CreateBG();
+    while (timingArray.length)
+        timingArray.pop();
 
     // runCodeTest on input function
     arrayEach($codeBlocks, (block, i) => (block.value ? runSpeedTest(block.value, i + 1) : false));
-
 };
 
 // Set the values for user iterations

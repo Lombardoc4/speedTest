@@ -25,7 +25,7 @@ const createCodeBlock = () => {
         const blockId = $codeBlocks.length + 1;
         const blockLabel = document.createElement('label');
         blockLabel.setAttribute('for', `codeblock${blockId}`);
-        blockLabel.innerHTML = `Insert Code Block ${blockId}:`;
+        blockLabel.innerHTML = `Block ${blockId}:`;
 
         const blockTextarea = document.createElement('textarea');
         blockTextarea.id = `codeblock${blockId}`;
@@ -81,10 +81,31 @@ const runSpeedTest = (testInput, id) => {
     timingArray.push({ id, timing });
     console.log();
 
-    const p = document.createElement('p');
-    p.style.backgroundColor = colorArray[id - 1];
-    p.innerHTML = `Code Block <b>${id}</b>: took <b>${timing}</b> milliseconds.`;
-    document.getElementById('timing').append(p);
+    const container = document.createElement('div');
+    container.style.display = 'flex';
+
+    const p1 = document.createElement('p');
+    p1.innerHTML = `Block ${id}: `;
+    p1.style.flex = '1 0 70px';
+
+    const p2 = document.createElement('p');
+    p2.id = `block-${id}`;
+    p2.style.backgroundColor = colorArray[id - 1];
+    // p2.style.flex = '1 0 100%';
+    p2.style.padding = '0 0 0 0.5em';
+    p2.style.borderRadius = '1em';
+    p2.style.border = '1px solid #000000';
+
+    p2.style.color = 'white';
+    p2.innerHTML = `<b>${Number(timing).toFixed(4)}</b>ms.`;
+
+    // p.style.padding = '0 0 0 1em';
+
+    // const p = document.createElement('p');
+
+    container.append(p1);
+    container.append(p2);
+    document.getElementById('timing').append(container);
 };
 
 const compare = (a, b) => {
@@ -113,7 +134,14 @@ document.getElementById('runTest').onclick = (e) => {
 
     // insertionAlgo(timingArray);
     timingArray.sort(compare);
-    console.log(timingArray);
+    arrayEach(timingArray, (codeBlock) => {
+        const blockEl = document.getElementById(`block-${codeBlock.id}`);
+        blockEl.style.width = `${codeBlock.timing / timingArray[timingArray.length - 1].timing * 100}%`;
+        console.log(codeBlock.timing / timingArray[timingArray.length - 1].timing);
+    });
+
+    // Get each element that will fill and set width.
+    //
 };
 
 // Set the values for user iterations

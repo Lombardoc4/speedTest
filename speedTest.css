@@ -33,6 +33,7 @@ form{
     border-radius: 1em;
     box-shadow: 0 0 10px #696969;
     overflow: scroll;
+    max-width: 880px;
 
     /* Children */
     display: flex;
@@ -49,12 +50,12 @@ form{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: center;
     padding: 0 1em;
     flex: 1 1 50%;
 }
 
 #header > div > span{
+    text-align: center;
     font-size: 12px;
     font-style: italic;
     /* padding-top: 2px; */

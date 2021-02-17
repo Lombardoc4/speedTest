@@ -1,3 +1,7 @@
+// TODO:
+// Make Self firing function
+// Implement preloader
+
 const $iterationNum = document.getElementById('iterationNum');
 const $codeBlocks = document.getElementsByClassName('codeblock');
 const $allBlocks = document.getElementById('allBlocks');

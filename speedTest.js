@@ -1,6 +1,8 @@
 // TODO:
 // Make Self firing function
 // Implement preloader
+// Fix timingText if width is < 50%
+// If at Max Blocks removed add block button
 
 const $iterationNum = document.getElementById('iterationNum');
 const $codeBlocks = document.getElementsByClassName('codeblock');

@@ -3,62 +3,133 @@
     padding: 0;
     box-sizing: border-box;
 }
-html{
+html, body{
     height: 100%;
     width: 100%;
-    background-color: #ffffff;
+
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #272E2E;
+
+    color:#E5E7E7;
 }
 
-body{
-    /* Positioning */
-    height: calc(100% - 2em);
-    width: calc(100% - 2em);
-    margin: auto;
-    margin-top: 1em;
 
-    /* Shape and Color */
-    border-radius: 2em;
-    background-color: #e5e5e5;
-    box-shadow: inset 0 0 5px #696969;
 
-    /* Children */
-    display: flex;
-    justify-content: center;
+h1{
+    font-size: 24px;
+}
+
+#loader{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    /* background-color: rgb(105, 105, 105); */
+    background-color: rgba(105, 105, 105, 0.7 );
+}
+
+.d-none{
+    display: none;
+}
+
+nav{
+    display: grid;
+    grid: auto-flow / 0.5fr 1fr 0.5fr;
+    position: sticky;
+    top: 0;
+    padding: 0.5em 2em;
+    width: 100%;
+    box-shadow: 0 0 4px #f7e222;
+    background-color: #3D4849;
     align-items: center;
 }
 
-form{
-    background-color: #ffffff;
-    padding: 2em;
-    border-radius: 1em;
-    box-shadow: 0 0 10px #696969;
-    overflow: scroll;
-    max-width: 880px;
-
-    /* Children */
+nav header{
     display: flex;
-    flex-direction: column;
+    /* vertical-align: middle; */
+
 }
 
-#header{
+#header-btn-grp{
     display: flex;
-    flex-direction: column;
-    /* flex-wrap: nowrap; */
-}
-
-#header > div{
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    padding: 0 1em;
-    flex: 1 1 50%;
 }
 
-#header > div > span{
-    text-align: center;
-    font-size: 12px;
+#header-btn-grp button{
+    width: 50%;
+    margin: 0 1em;
+
+}
+
+#instructions p{
+    font-weight: bold;
     font-style: italic;
-    /* padding-top: 2px; */
+    font-size: 14px;
+}
+
+section#main{
+    padding: 2em 0;
+    width: 100%;
+    max-width: 1000px;
+
+    display: flex;
+    margin: auto;
+}
+
+section#main > *{
+    width: 50%;
+}
+
+#allBlocks{
+    margin: 0.25em 1em 0.5em 0 ;
+}
+
+.aBlock{
+    position: relative;
+    padding: 0 0 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.aBlock header{
+    display: flex;
+    justify-content: space-between;
+}
+
+p[data-block-target]{
+    font-size: 12px;
+    cursor: pointer;
+}
+
+label{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+textarea{
+    height: 15em;
+    resize: none;
+    padding: 1em;
+
+    outline: #f7e222 auto 1px;
+    background-color: #3D4849;
+    color: #E5E7E7;
+    font-size: 14px;
+}
+
+
+#content{
+    margin: 1em;
+    max-height: 200px;
+    position: sticky;
+    top: 10%;
+}
+
+#iterations{
+    font-size: 20px;
 }
 
 #currentIterations{
@@ -85,86 +156,64 @@ form{
     cursor: pointer;
 }
 
+
+#results{
+    background-color: #3D4849;
+    border-radius: 5px;
+    padding: 1em;
+    margin: 1em 0;
+    min-height: 4em;
+}
+
+
+
+#timing{
+    width: 100%;
+}
+
+
 #timing p{
     margin-top: 1em;
-    position: relative;
 }
-
-#timing p::after{
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 50%;
-}
-
-
-#allBlocks{
-    display: flex;
-    flex-wrap: wrap;
-    /* flex-direction: column; */
-}
-
-.aBlock{
-    max-width: 55em;
-    margin: auto;
-    padding: 1em 1em;
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-
-label{
-    font-weight: bold;
-    font-size: 16px;
-}
-
-textarea{
-    height: 10em;
-    width: 360px;
-    padding: 1em;
-    /* margin: 1em 0 0; */
-    resize: none;
-
-    overflow: auto;
-    outline: none;
-
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-}
-
 
 #buttonGroup{
-    display: flex;
-    justify-content: space-around;
+    margin: 1em 0;
+    /* display: flex; */
+    /* justify-content: space-around; */
 }
 
 button{
     outline: none;
     border: none;
-    border-radius: 1em;
-    color: #ffffff;
+    width: 100%;
+    padding: 0.5em;
     font-size: 16px;
-    padding: 0 2em;
-    margin: 0.5em;
-    box-shadow: 0 0 5px #696969;
-    transition: box-shadow 0.3s;
+    margin: 0.5em 0;
+    border-radius: 5px;
+    cursor: pointer;
+    /* box-shadow: 0 0 5px #696969; */
+    /* transition: box-shadow 0.3s; */
 
 }
 
 button:hover{
-    box-shadow: 0 0 10px #696969;
-    transition: box-shadow 0.3s;
+    /* box-shadow: 0 0 10px #696969; */
+    /* transition: box-shadow 0.3s; */
 }
 
-#insertBlock{
-    background-color: rgb(65, 169, 0);
+.insert-block{
+    color: #ffffff;
+    background-color: #696969;
+    /* font-size: 1em; */
 }
 
-#runTest{
-    background-color: rgb(0, 166, 169);
+#runTest1, #runTest2{
+    background-color: #ffffff;
+    color: #272E2E;
+}
+
+#runTest1{
+    /* width: 5em; */
 }
 
 

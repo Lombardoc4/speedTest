@@ -8,40 +8,61 @@
 </head>
 <body>
 
-    <form>
-        <div id="header">
-            <div>
-                <div id="currentIterations"><span class="bold-big" id="iterationNum">1</span> Iterations</div>
-                <div id="iterationOptions"></div>
-                <span>If (Input Code === Loop) { Choose 1 }</span>
-            </div>
-            <div id="timing"></div>
+    <nav>
+        <header>
+            <h1>JS Benchmark</h1>
+        </header>
+        <div id="instructions">
+            <p>Pasta a function and see how timely it can be - If your code has a loop choose 10<sup>0</sup> Iteration</p>
         </div>
-        <!-- <label class="limitOptions" for="maxIterations">Choose number of iterations:</label> -->
-        <!-- <select class="limitOptions"  name="maxIterations" id="maxIterations"> -->
-        <!-- </select> -->
+        <div id="header-btn-grp">
+            <button type="button run-test" id="runTest1">&#10003; Run</button>
+            <button type="button" id="donate">$ Donate</button>
+        </div>
+    </nav>
 
-
+    <section id="main">
         <div id="allBlocks">
             <div class="aBlock">
                 <label for="codeblock1">Block 1:</label>
-                <textarea class="codeblock" id="codeblock1" name="codeblock1" /></textarea>
+                <textarea class="codeblock" id="codeblock1" name="codeblock1"></textarea>
+            </div>
+            <button type="button" class="insert-block"  id="insertBlock1">&#10010; Block</button>
+        </div>
+
+
+
+        <div id="content">
+            <div id="iterations">
+                <!-- <div id="instructions">
+                    <p>Pasta a function and see how timely it can be</p>
+                    <p>If your code has a loop choose 1 Iteration</p>
+                </div> -->
+                <div>
+                    <div id="currentIterations">Currently <span class="bold-big" id="iterationNum">1</span> Iterations</div>
+                    <div id="iterationOptions"></div>
+                    <!-- <span>If (Input Code === Loop) { Choose 1 }</span> -->
+                </div>
+
+            </div>
+
+            <div id="buttonGroup">
+                <button type="button" class="insert-block" id="insertBlock2">&#10010; Block</button>
+                <button type="button" class="run-test" id="runTest2">&#10003; Run</button>
+            </div>
+
+            <div id="results">
+                <h1>Results</h1>
+                <div id="timing">
+                </div>
             </div>
         </div>
 
-        <div id="buttonGroup">
-            <button type="button" id="insertBlock"><span class="bold-big">&#10010;</span> Block</button>
-            <button type="button" id="runTest"><span class="bold-big">&#10003;</span> Submit</button>
-
-        </div>
-        <!-- <label for="codeblock2">Insert Code Block 2:</label> -->
-        <!-- <textarea class="codeblock" id="codeblock2" name="codeblock1" /></textarea> -->
+    </section>
 
 
+    <div id="preloader" class="d-none"><h1>&#9880;Thanks for your patience&#9880;</h1></div>
 
-        <datalist id="iterations">
-        </datalist>
-    </form>
 
     <!-- JS -->
     <script src="./speedTest.js"></script>

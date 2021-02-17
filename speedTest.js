@@ -2,7 +2,8 @@ const $iterationNum = document.getElementById('iterationNum');
 const $codeBlocks = document.getElementsByClassName('codeblock');
 const $allBlocks = document.getElementById('allBlocks');
 
-const iterationOptions = [1, 100000, 100000, 1000000, 10000000];
+const iterationOptions = [0, 3, 6, 7, 8, 9];
+const timingArray = [];
 
 const arrayEach = (object, callback) => {
     let i = 0;
@@ -16,51 +17,41 @@ const arrayEach = (object, callback) => {
     }
 };
 
-// Set limit to maybe maybe 4 functions to compare or even 3
 const createCodeBlock = () => {
-    if ($codeBlocks.length === 1)
-        document.getElementById('header').style.flexDirection = 'row';
-
     if ($codeBlocks.length < 4) {
         const blockId = $codeBlocks.length + 1;
+        // Block label
         const blockLabel = document.createElement('label');
         blockLabel.setAttribute('for', `codeblock${blockId}`);
-        blockLabel.innerHTML = `Block ${blockId}:`;
+        blockLabel.innerHTML = `Block ${blockId}: `;
 
+        // Block remove
+        const blockTextRemove = document.createElement('p');
+        blockTextRemove.dataset.blockTarget = blockId;
+        blockTextRemove.innerHTML = 'Remove &#10006;';
+        blockTextRemove.onclick = function () {
+            document.querySelector(`[data-block="${this.dataset.blockTarget}"`).remove()
+        };
+
+        const blockHeader = document.createElement('header');
+        blockHeader.append(blockLabel);
+        blockHeader.append(blockTextRemove);
+
+        // Block input
         const blockTextarea = document.createElement('textarea');
         blockTextarea.id = `codeblock${blockId}`;
         blockTextarea.name = `codeblock${blockId}`;
         blockTextarea.classList.add('codeblock');
 
+
         const aBlock = document.createElement('div');
+        aBlock.dataset.block = blockId;
         aBlock.classList.add('aBlock');
-        aBlock.append(blockLabel);
+        aBlock.append(blockHeader);
         aBlock.append(blockTextarea);
 
-        $allBlocks.append(aBlock);
+        $allBlocks.insertBefore(aBlock, document.getElementById('insertBlock1'));
     }
-};
-
-document.getElementById('insertBlock').onclick = (e) => {
-    e.preventDefault();
-    createCodeBlock();
-};
-
-const colorArray = ['red', 'orange', 'green', 'teal'];
-const timingArray = [];
-
-const insertionAlgo = (arr) => {
-    arrayEach(arr, (funcTime, i) => {
-        // Insertion Sort
-        const num = arr[i];
-        let j;
-        // console.log('num', num);
-
-        for (j = i - 1; j >= 0 && arr[j] > num; j--)
-            arr[j + 1] = arr[j];
-
-        arr[j + 1] = num;
-    });
 };
 
 const runSpeedTest = (testInput, id) => {
@@ -79,29 +70,24 @@ const runSpeedTest = (testInput, id) => {
     const timing = t1 - t0;
 
     timingArray.push({ id, timing });
-    console.log();
 
+    // Create Results
     const container = document.createElement('div');
     container.style.display = 'flex';
 
+    // Block ID
     const p1 = document.createElement('p');
     p1.innerHTML = `Block ${id}: `;
     p1.style.flex = '1 0 70px';
 
+    // 'Bar Graph'
     const p2 = document.createElement('p');
     p2.id = `block-${id}`;
-    p2.style.backgroundColor = colorArray[id - 1];
-    // p2.style.flex = '1 0 100%';
-    p2.style.padding = '0 0 0 0.5em';
-    p2.style.borderRadius = '1em';
-    p2.style.border = '1px solid #000000';
-
-    p2.style.color = 'white';
     p2.innerHTML = `<b>${Number(timing).toFixed(4)}</b>ms.`;
-
-    // p.style.padding = '0 0 0 1em';
-
-    // const p = document.createElement('p');
+    p2.style.color = '#272E2E';
+    p2.style.backgroundColor = '#f7e222';
+    p2.style.padding = '0 0 0 0.5em';
+    p2.style.borderRadius = '5px';
 
     container.append(p1);
     container.append(p2);
@@ -118,30 +104,24 @@ const compare = (a, b) => {
     return 0;
 };
 
-// Set the power of submit
-document.getElementById('runTest').onclick = (e) => {
-    e.preventDefault();
-    // Clear Timing
+const runTest = () => {
+    // Clear previous timing
     const timing = document.getElementById('timing');
     while (timing.firstChild)
         timing.removeChild(timing.firstChild);
-
     while (timingArray.length)
         timingArray.pop();
 
-    // runCodeTest on input function
+    // runTest for each coding block
     arrayEach($codeBlocks, (block, i) => (block.value ? runSpeedTest(block.value, i + 1) : false));
 
-    // insertionAlgo(timingArray);
+    // Sort the timing
     timingArray.sort(compare);
-    arrayEach(timingArray, (codeBlock) => {
-        const blockEl = document.getElementById(`block-${codeBlock.id}`);
-        blockEl.style.width = `${codeBlock.timing / timingArray[timingArray.length - 1].timing * 100}%`;
-        console.log(codeBlock.timing / timingArray[timingArray.length - 1].timing);
-    });
 
-    // Get each element that will fill and set width.
-    //
+    // Set the width of the Time Blocks
+    arrayEach(timingArray, (codeBlock) => {
+        document.getElementById(`block-${codeBlock.id}`).style.width = `${(codeBlock.timing / timingArray[timingArray.length - 1].timing) * 100}%`;
+    });
 };
 
 // Set the values for user iterations
@@ -151,14 +131,31 @@ const setIterationOptions = (iterationOption) => {
         newOption.style.fontWeight = 'bold';
 
     newOption.onclick = function func() {
-        $iterationNum.innerHTML = iterationOption;
+        $iterationNum.innerHTML = Math.pow(10, iterationOption);
+        // Show selected / Can shift to on class
         arrayEach(document.querySelectorAll('#iterationOptions span'), (el) => { el.style.fontWeight = 'normal'; });
         this.style.fontWeight = 'bold';
     };
-    newOption.innerHTML = iterationOption;
+    newOption.innerHTML = `10<sup style="font-size: 12px">${iterationOption}</sup>`;
 
     document.getElementById('iterationOptions').append(newOption);
 };
 
 // initialize user options
 arrayEach(iterationOptions, (option) => setIterationOptions(option));
+
+// Set the power of submit
+arrayEach(document.getElementsByClassName('run-test'), (el) => {
+    el.onclick = (e) => {
+        e.preventDefault();
+        runTest();
+    };
+});
+
+// Insert Block
+arrayEach(document.getElementsByClassName('insert-block'), (el) => {
+    el.onclick = (e) => {
+        e.preventDefault();
+        createCodeBlock();
+    };
+});
